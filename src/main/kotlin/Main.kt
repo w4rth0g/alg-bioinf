@@ -7,9 +7,12 @@ fun main() {
     val nNegative = 8
     val kNum = 9
 
-    println(dnaStr)
+    println("Original DNA Sequence: $dnaStr")
 
     val nodes = InstGenerator.generateInstance(dnaStr, kNum, nPositive, nNegative)
 
-    println(nodes)
+    val reconstruction = DNAReconstruction()
+    val reconstructedDNA = reconstruction.reconstructDNA(nodes)
+
+    println("Reconstructed DNA sequence: $reconstructedDNA")
 }
