@@ -6,7 +6,7 @@ import java.util.PriorityQueue
 import java.util.UUID
 
 class DNAReconstruction {
-    fun reconstructDNA(nodes: NodesList): String {
+    fun reconstructDNA(nodes: NodesList, kNum: Int): String {
         if (nodes.allNodes.isEmpty()) return ""
 
         // Start with the first node
@@ -17,6 +17,9 @@ class DNAReconstruction {
 
         var currentNode = nodes.firstNode
         while (true) {
+            // Debug: Log current node
+            println("Current Node: ${currentNode.value}")
+
             // Find the next node with an edge of weight 1
             val nextNode = currentNode.nexts.entries.asSequence()
                 .filter { it.value == 1 && it.key !in visited }
@@ -28,9 +31,12 @@ class DNAReconstruction {
                 val (newNode, path) = findClosestNodeWithEdgeOfWeight1(nodes.allNodes, currentNode, visited)
                 if (newNode == null) break // No such node found, end reconstruction
 
+                // Debug: Log the path found by Dijkstra's algorithm
+                println("Path found to node with edge of weight 1: ${path.joinToString(" -> ") { it.value }}")
+
                 // Append the path to the reconstructed sequence
                 for (step in path) {
-                    val overlap = currentNode.nexts[step.id]!!
+                    val overlap = kNum - (currentNode.nexts[step.id] ?: 0)
                     reconstructed.append(step.value.drop(overlap))
                     visited.add(step.id)
                     currentNode = step
@@ -38,8 +44,11 @@ class DNAReconstruction {
                 continue
             }
 
+            // Debug: Log the next node with edge of weight 1
+            println("Next Node with edge of weight 1: ${nextNode.value}")
+
             // Append the next node's value to the reconstructed sequence
-            val overlap = currentNode.nexts[nextNode.id]!!
+            val overlap = kNum - (currentNode.nexts[nextNode.id] ?: 0)
             reconstructed.append(nextNode.value.drop(overlap))
 
             // Mark the node as visited
@@ -71,7 +80,7 @@ class DNAReconstruction {
                 var stepNode = currentNode
                 while (stepNode.id != startNode.id) {
                     path.add(0, stepNode)
-                    stepNode = previousNodes[stepNode.id]!!
+                    stepNode = previousNodes[stepNode.id] ?: break
                 }
                 return currentNode to path
             }
