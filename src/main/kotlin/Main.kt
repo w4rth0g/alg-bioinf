@@ -5,17 +5,20 @@ import pl.bioinf.data.DNA_STR
 fun main() {
 
     val dnaStr = InstGenerator.generateRandomDNASequence(100)
-//    val nPositive = 10
-//    val nNegative = 8
+    val nPositive = 0
+    val nNegative = 0
     val kNum = 8
+//    val dnaStr = DNA_STR
+//    val dnaStr = "GTGGTCGTCAGATTAGGGAATAAAACGTGCAGCGAGATACGAACGTTCGGGAGTTGATACCGAGTAGGGTGCAGCCCCGCGCGGTATCAATCCCGCATCA"
+
 //    val dnaStr = DNA_STR
 
     println("Original DNA Sequence: $dnaStr")
 
-    val nodes = InstGenerator.generateInstance(dnaStr, kNum, 0, 0)
+    val nodes = InstGenerator.generateInstance(dnaStr, kNum, nPositive, nNegative)
 
-    println("First node: ${nodes.firstNode}")
-    println("All nodes: ${nodes.allNodes}")
+    println("First node: ${nodes.first}")
+//    println("All nodes: ${nodes.allNodes}")
 
     val reconstruction = DNAReconstruction()
     val reconstructedDNA = reconstruction.reconstructDNA(nodes, kNum)
