@@ -1,13 +1,17 @@
 package pl.bioinf
 
 import pl.bioinf.data.DNA_STR
+import kotlin.random.Random
 
 fun main() {
 
-    val dnaStr = InstGenerator.generateRandomDNASequence(100)
     val nPositive = 0
     val nNegative = 0
-    val kNum = 8
+    val kNum = 9
+    val nNukl = 700
+
+    val dnaStr = InstGenerator.generateRandomDNASequence(nNukl)
+//    val dnaStr = "GATCTAGTGCTAGTAGCGGGTTATATGCGTGAAGGAGACTTAACTACGGTGACGTAAGGTGGGATTGACATGGTCCGAGCATCTAGTAACGCGCCGGGTC"
 //    val dnaStr = DNA_STR
 //    val dnaStr = "GTGGTCGTCAGATTAGGGAATAAAACGTGCAGCGAGATACGAACGTTCGGGAGTTGATACCGAGTAGGGTGCAGCCCCGCGCGGTATCAATCCCGCATCA"
 
@@ -21,7 +25,7 @@ fun main() {
 //    println("All nodes: ${nodes.allNodes}")
 
     val reconstruction = DNAReconstruction()
-    val reconstructedDNA = reconstruction.reconstructDNA(nodes, kNum)
+    val reconstructedDNA = reconstruction.reconstructDNA(nodes, nNukl)
 
     println("Reconstructed DNA sequence: $reconstructedDNA")
 
