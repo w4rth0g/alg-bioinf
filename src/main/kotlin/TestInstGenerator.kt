@@ -11,7 +11,7 @@ fun main() {
             val nNegErrors: Int = (nn * (errorRate / 100.0)).toInt()
             val (first, spectrum) = InstGenerator.generateSpectrum(dnaString, k, 0, nNegErrors)
 
-            val specJson = SpectrumObj(first, spectrum)
+            val specJson = SpectrumObj(dnaString, first, spectrum)
             specList.add(specJson)
         }
         val spectrumObjList = SpectrumObjList(specList)

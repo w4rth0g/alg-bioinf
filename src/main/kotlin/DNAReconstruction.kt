@@ -14,7 +14,7 @@ class DNAReconstruction {
             val currentNodeVis = list.nodes[currentNode.key]!!.second
             list.nodes[currentNode.key] = list.nodes[currentNode.key]!!.copy(second = currentNodeVis - 1)
 
-            println("Current Node: ${currentNode.key}")
+//            println("Current Node: ${currentNode.key}")
 
             // Find the next node with an edge of weight 1(2, 3) and not visited
             val nextNode = getNextNode(list, currentNode)
@@ -26,7 +26,7 @@ class DNAReconstruction {
                 val (newNode, path) = findClosestUnvisitedNode(list.nodes, currentNode)
                 if (newNode == null) break // No such node found, end reconstruction
 
-                println("Path found to node not visited: ${path.joinToString(" -> ") { it }}")
+//                println("Path found to node not visited: ${path.joinToString(" -> ") { it }}")
 
                 // Append the path to the reconstructed sequence
                 for (step in path) {
@@ -36,7 +36,7 @@ class DNAReconstruction {
                 continue
             }
 
-            println("Next Node with edge of weight ${currentNode.value.first[nextNode.key]}: ${nextNode.key}")
+//            println("Next Node with edge of weight ${currentNode.value.first[nextNode.key]}: ${nextNode.key}")
 
             // Append the next node's value to the reconstructed sequence
             reconstructed.append(currentNode.key.dropOverlap(nextNode.key))
