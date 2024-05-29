@@ -15,6 +15,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("pl.bioinf:generator-inst-bioinf:1.0-SNAPSHOT")
+    implementation("org.apache.commons:commons-text:1.10.0")
 }
 
 tasks.test {

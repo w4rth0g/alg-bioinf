@@ -1,5 +1,6 @@
 package pl.bioinf
 
+import org.apache.commons.text.similarity.LevenshteinDistance
 import pl.bioinf.data.DNA_STR
 import kotlin.random.Random
 
@@ -19,7 +20,8 @@ fun main() {
 
     println("Original DNA Sequence: $dnaStr")
 
-    val nodes = InstGenerator.generateInstance(dnaStr, kNum, nPositive, nNegative)
+    val (first, spectrum) = InstGenerator.generateSpectrum(dnaStr, kNum, nPositive, nNegative)
+    val nodes = InstGenerator.generateInstance(first, spectrum)
 
     println("First node: ${nodes.first}")
 //    println("All nodes: ${nodes.allNodes}")
@@ -29,5 +31,8 @@ fun main() {
 
     println("Reconstructed DNA sequence: $reconstructedDNA")
 
-    println("Equal: ${reconstructedDNA.contains(dnaStr)}")
+    val levenshteinDistance = LevenshteinDistance()
+    val distance = levenshteinDistance.apply(dnaStr, reconstructedDNA)
+
+    println("Miara lev: $distance")
 }
