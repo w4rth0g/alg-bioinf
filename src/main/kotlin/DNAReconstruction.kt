@@ -2,22 +2,31 @@ package pl.bioinf
 
 import pl.bioinf.data.NodesList
 import java.util.PriorityQueue
+import kotlin.random.Random
 
 class DNAReconstruction {
-    fun reconstructDNA(list: NodesList, originalSize: Int): String {
+    fun reconstructDNA(list: NodesList, originalSize: Int, dumbParam: Int): String {
         if (list.nodes.isEmpty()) return ""
 
         val reconstructed = StringBuilder(list.first)
+        var dumbs = mutableListOf<Int>()
+
+        (0..<dumbParam).forEach {
+            dumbs.add(Random.nextInt(list.nodes.size))
+        }
 
         var currentNode = list.nodes.entries.elementAt(0)
+        var nodeCnt = 0
         while (true) {
+            nodeCnt += 1
             val currentNodeVis = list.nodes[currentNode.key]!!.second
             list.nodes[currentNode.key] = list.nodes[currentNode.key]!!.copy(second = currentNodeVis - 1)
 
 //            println("Current Node: ${currentNode.key}")
 
             // Find the next node with an edge of weight 1(2, 3) and not visited
-            val nextNode = getNextNode(list, currentNode)
+            val nextNode = if (dumbs.contains(nodeCnt)) getNextNodeDumb(list, currentNode)
+            else getNextNode(list, currentNode)
 
             if (nextNode == null) {
                 if (reconstructed.toString().length >= originalSize) break
@@ -51,6 +60,20 @@ class DNAReconstruction {
         list: NodesList,
         currentNode:  MutableMap. MutableEntry<String, Pair<MutableMap<String, Int>, Int>>,
         edgeWeight: Int = 1
+    ):  MutableMap. MutableEntry<String, Pair<MutableMap<String, Int>, Int>>? {
+        if (edgeWeight > 3) {
+            return null
+        }
+        return currentNode.value.first.entries.asSequence()
+            .filter { it.value == edgeWeight && list.nodes[it.key]!!.second > 0 }
+            .map { entry -> list.nodes.entries.first { it.key == entry.key } }
+            .firstOrNull() ?: getNextNode(list, currentNode, edgeWeight + 1)
+    }
+
+    private fun getNextNodeDumb(
+        list: NodesList,
+        currentNode:  MutableMap. MutableEntry<String, Pair<MutableMap<String, Int>, Int>>,
+        edgeWeight: Int = 2
     ):  MutableMap. MutableEntry<String, Pair<MutableMap<String, Int>, Int>>? {
         if (edgeWeight > 3) {
             return null

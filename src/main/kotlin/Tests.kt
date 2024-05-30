@@ -7,7 +7,40 @@ fun main() {
     testErrors("N")
     testErrors("P")
     testK()
+    testDumb()
 
+}
+
+fun testDumb() {
+    val header = listOf("10", "20", "30", "40", "50")
+
+    val finalDistances = mutableListOf<Int>()
+
+    (10..50 step 10).forEach { dumbP ->
+        val spectrumList = readJsonFromFile("testInst/test_dumb.json")
+
+        val distances = mutableListOf<Int>()
+        (0..<60).forEach {
+            val nodes = InstGenerator.generateInstance(
+                spectrumList.spectrumList[it].first,
+                spectrumList.spectrumList[it].sectrum
+            )
+
+            val reconstruction = DNAReconstruction()
+            val reconstructedDNA = reconstruction.reconstructDNA(
+                nodes, spectrumList.spectrumList[it].dnaStr.length, dumbP)
+
+            val levenshteinDistance = LevenshteinDistance()
+            val distance = levenshteinDistance.apply(spectrumList.spectrumList[it].dnaStr, reconstructedDNA)
+
+            distances.add(distance)
+        }
+
+        finalDistances.add(distances.sum() / distances.size)
+    }
+
+    println(finalDistances)
+    writeCsvFile("test_dumb.csv", finalDistances, header)
 }
 
 fun testK() {
@@ -27,7 +60,7 @@ fun testK() {
 
             val reconstruction = DNAReconstruction()
             val reconstructedDNA = reconstruction.reconstructDNA(
-                nodes, spectrumList.spectrumList[it].dnaStr.length)
+                nodes, spectrumList.spectrumList[it].dnaStr.length, 0)
 
             val levenshteinDistance = LevenshteinDistance()
             val distance = levenshteinDistance.apply(spectrumList.spectrumList[it].dnaStr, reconstructedDNA)
@@ -65,7 +98,7 @@ fun testErrors(errorType: String) {
 
             val reconstruction = DNAReconstruction()
             val reconstructedDNA = reconstruction.reconstructDNA(
-                nodes, spectrumList.spectrumList[it].dnaStr.length)
+                nodes, spectrumList.spectrumList[it].dnaStr.length,0)
 
             val levenshteinDistance = LevenshteinDistance()
             val distance = levenshteinDistance.apply(spectrumList.spectrumList[it].dnaStr, reconstructedDNA)

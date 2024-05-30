@@ -27,7 +27,7 @@ fun main() {
 //    println("All nodes: ${nodes.allNodes}")
 
     val reconstruction = DNAReconstruction()
-    val reconstructedDNA = reconstruction.reconstructDNA(nodes, nNukl)
+    val reconstructedDNA = reconstruction.reconstructDNA(nodes, nNukl, 0)
 
     println("Reconstructed DNA sequence: $reconstructedDNA")
 
