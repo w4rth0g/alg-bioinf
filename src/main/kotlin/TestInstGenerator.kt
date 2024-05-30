@@ -31,4 +31,17 @@ fun main() {
         val spectrumObjList = SpectrumObjList(specList)
         writeJsonToFile(spectrumObjList, "test2_positive_$errorRate.json")
     }
+
+    (6..10).forEach { kNum ->
+        val specList = mutableListOf<SpectrumObj>()
+        (0..<20).forEach {
+            val dnaString = InstGenerator.generateRandomDNASequence(nn)
+            val (first, spectrum) = InstGenerator.generateSpectrum(dnaString, kNum, 0, 0)
+
+            val specJson = SpectrumObj(dnaString, first, spectrum)
+            specList.add(specJson)
+        }
+        val spectrumObjList = SpectrumObjList(specList)
+        writeJsonToFile(spectrumObjList, "test2_k_$kNum.json")
+    }
 }

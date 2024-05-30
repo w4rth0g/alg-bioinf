@@ -6,7 +6,40 @@ fun main() {
 
     testErrors("N")
     testErrors("P")
+    testK()
 
+}
+
+fun testK() {
+    val header = listOf("6", "7", "8", "9", "10")
+
+    val finalDistances = mutableListOf<Int>()
+
+    (6..10).forEach { kNum ->
+        val spectrumList = readJsonFromFile("testInst/test2_k_$kNum.json")
+
+        val distances = mutableListOf<Int>()
+        (0..<20).forEach {
+            val nodes = InstGenerator.generateInstance(
+                spectrumList.spectrumList[it].first,
+                spectrumList.spectrumList[it].sectrum
+            )
+
+            val reconstruction = DNAReconstruction()
+            val reconstructedDNA = reconstruction.reconstructDNA(
+                nodes, spectrumList.spectrumList[it].dnaStr.length)
+
+            val levenshteinDistance = LevenshteinDistance()
+            val distance = levenshteinDistance.apply(spectrumList.spectrumList[it].dnaStr, reconstructedDNA)
+
+            distances.add(distance)
+        }
+
+        finalDistances.add(distances.sum() / distances.size)
+    }
+
+    println(finalDistances)
+    writeCsvFile("test2_k.csv", finalDistances, header)
 }
 
 fun testErrors(errorType: String) {
